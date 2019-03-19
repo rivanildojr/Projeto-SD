@@ -10,6 +10,7 @@ public class Grupo{
     public Channel channel;
     public Channel channelArquivo;
     Mensagem msg = new Mensagem();
+    RESTClient rest = new RESTClient();
     
     public Grupo(Channel channel, Channel channelArquivo){
         this.channel = channel;
@@ -77,34 +78,45 @@ public class Grupo{
         }
     }
     
-    //Verificando comandos (!)
+    public void listarUsuariosGrupo(String grupo){
+        String caminho = "/api/exchanges/%2F/" + grupo + "/bindings/source";
+        rest.obterPedido(caminho);
+    }
+    
+    public void listarGrupos(String usuario){
+        String caminho = "/api/queues/%2F/" + usuario + "/bindings";
+        rest.obterPedido(caminho);
+    }
+    
+    //Verificando comandos iniciando com (!)
     public void verificaMensagem(String line, String usuario, String destino, String grupo) throws Exception{
         String[] mensagem = line.split(" ");
         switch(mensagem[0]){
           // Criando grupo
           case "!addGroup":
             criarGrupo(mensagem[1],usuario);
-            System.out.println("Grupo criado com sucesso!");
             break;
           // Excluindo grupo
           case "!removeGroup":
             excluirGrupo(mensagem[1]);
-            System.out.println("Grupo removido com sucesso!");
             break;
           // Inserindo usuário em um grupo
           case "!addUser":
             inserirUsuarioGrupo(mensagem[1],mensagem[2]);
-            System.out.println("Usuário inserido com sucesso!");
             break;
           // Removendo usuário de um grupo
           case "!delFromGroup":
             removerUsuarioGrupo(mensagem[1],mensagem[2]);
-            System.out.println("Usuário removido com sucesso!");
             break;
           case "!upload":
             enviarArquivo(mensagem[1], destino, usuario, grupo);
-            System.out.println("arquivo enviado com sucesso!");
-            break;  
+            break;
+          case "!listUsers":
+            listarUsuariosGrupo(mensagem[1]);
+            break; 
+          case "!listGroups":
+            listarGrupos(usuario);
+            break;
         }
     }
 }

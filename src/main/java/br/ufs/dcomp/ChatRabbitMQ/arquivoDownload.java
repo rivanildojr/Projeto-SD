@@ -15,14 +15,16 @@ public class arquivoDownload extends Thread{
   private final String data;
   private final String hora;
   private final String grupo;
+  private final String userAtual;
   
-  public arquivoDownload(String destino, String emissor, MensagemProto.Conteudo conteudoMensagem, String data, String hora, String grupo){
+  public arquivoDownload(String destino, String emissor, MensagemProto.Conteudo conteudoMensagem, String data, String hora, String grupo, String userAtual){
     this.destino = destino;
     this.emissor = emissor;
     this.conteudoMensagem = conteudoMensagem;
     this.data = data;
     this.hora = hora;
     this.grupo = grupo;
+    this.userAtual = userAtual;
       start();
   }
   
@@ -38,16 +40,13 @@ public class arquivoDownload extends Thread{
       outputStream.close();
         
       String emi = "";
-      String dest = "";
       if((this.grupo).equals("") == false) {//se o envio for para um grupo
         emi = this.emissor + "#" + this.grupo;
-        dest = "#" + this.grupo;
       } else {
         emi = "@" + this.emissor;
-        dest = "@" + this.emissor;
       }
       System.out.println("\n(" + this.data + " às " + this.hora + ") Arquivo " + "\"" + nome + "\"" + " recebido de " + emi + "  !");
-      System.out.print(dest + ">> ");
+      System.out.print(userAtual + ">> ");
         
     } catch(Exception ex){
       System.out.println (ex.toString());

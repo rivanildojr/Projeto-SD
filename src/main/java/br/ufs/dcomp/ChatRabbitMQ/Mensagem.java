@@ -46,7 +46,7 @@ public class Mensagem{
   
   
       //Recebe um pacote e salva-o, se for arquivo, ou converte-o para string, se for texto.
-    static String recebeMessagem(byte[] pacoteMesagem, String user) throws Exception{
+    static String recebeMessagem(byte[] pacoteMesagem, String user, String userAtual) throws Exception{
         MensagemProto.Mensagem mensagem = MensagemProto.Mensagem.parseFrom(pacoteMesagem);
         String emissor = mensagem.getEmissor();
         String data = mensagem.getData();
@@ -58,7 +58,7 @@ public class Mensagem{
         String result = ""; //retorno do prompt
            
         if(nome.equals("") == false){ //verifica a existencia de arquivo
-            arquivoDownload download = new arquivoDownload(user, emissor, conteudoMensagem, data, hora, grupo);
+            arquivoDownload download = new arquivoDownload(user, emissor, conteudoMensagem, data, hora, grupo, userAtual);
         } else {
             ByteString corpo = conteudoMensagem.getCorpo();
             String info = corpo.toStringUtf8();

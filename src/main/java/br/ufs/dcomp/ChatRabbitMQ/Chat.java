@@ -38,16 +38,13 @@ public class Chat{
     Consumer consumer = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-       try{
-         System.out.println(msg.recebeMessagem(body, user, Chat.userAtual));
-       } catch (Exception ex) {
-         System.out.println (ex.toString());
-       }
-       System.out.print(Chat.userAtual + ">> ");
+        try{
+          msg.recebeMessagem(body, user, Chat.userAtual);
+        } catch (Exception ex) {
+           System.out.println (ex.toString());
+        }
       }
     };
-  
-
     
 // ------------------------------------- CHAT ----------------------------------------- 
     String current = "";
@@ -73,7 +70,7 @@ public class Chat{
         nomeGrupo = line.substring(1);
       }
       else if(line.charAt(0) == '!'){//verifica comando
-        grupo.verificaMensagem(line, user, Chat.userAtual.substring(1), nomeGrupo);
+        grupo.verificaMensagem(line, user, Chat.userAtual, nomeGrupo);
       }
       else if(Chat.userAtual.equals("") == false){  
         if(Chat.userAtual.charAt(0) == '#') //caso o envio seja para um grupo

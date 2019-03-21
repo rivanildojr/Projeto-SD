@@ -46,7 +46,7 @@ public class Mensagem{
   
   
       //Recebe um pacote e salva-o, se for arquivo, ou converte-o para string, se for texto.
-    static String recebeMessagem(byte[] pacoteMesagem, String user, String userAtual) throws Exception{
+    static void recebeMessagem(byte[] pacoteMesagem, String user, String userAtual) throws Exception{
         MensagemProto.Mensagem mensagem = MensagemProto.Mensagem.parseFrom(pacoteMesagem);
         String emissor = mensagem.getEmissor();
         String data = mensagem.getData();
@@ -55,7 +55,6 @@ public class Mensagem{
            
         MensagemProto.Conteudo conteudoMensagem = mensagem.getConteudo();
         String nome = conteudoMensagem.getNome();
-        String result = ""; //retorno do prompt
            
         if(nome.equals("") == false){ //verifica a existencia de arquivo
             arquivoDownload download = new arquivoDownload(user, emissor, conteudoMensagem, data, hora, grupo, userAtual);
@@ -67,9 +66,9 @@ public class Mensagem{
                 grupo = "#" + grupo; //cria a string para enviar ao grupo
             }
            
-            result = "\n(" + data + " às " + hora + ") " + emissor + grupo + " diz: " + info; //seta a variavel de resposta
+            System.out.println("\n(" + data + " às " + hora + ") " + emissor + grupo + " diz: " + info);
+            System.out.print(userAtual + ">> ");
         }
-        return result;
     }
       
     static void upload(String caminho, String destino, String usuario, Channel channel, String grupo)throws Exception{

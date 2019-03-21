@@ -33,8 +33,8 @@ public class Grupo{
     //Criando grupos
     public void excluirGrupo(String nomeGrupo){
         try{
-            channel.exchangeDelete(nomeGrupo, true);
-            channel.exchangeDelete(nomeGrupo + "F", true);
+            channel.exchangeDelete(nomeGrupo);
+            channel.exchangeDelete(nomeGrupo + "F");
         }catch(IOException ex){
             System.out.println (ex.toString());
         }
@@ -51,7 +51,7 @@ public class Grupo{
     }
     
     //Criando grupos
-    public void removerUsuarioGrupo(String nomeGrupo, String usuario){
+    public void removerUsuarioGrupo(String usuario, String nomeGrupo){
         try{
             channel.queueUnbind(usuario, nomeGrupo, "");
             channel.queueUnbind(usuario + "F", nomeGrupo + "F", "");
@@ -73,6 +73,7 @@ public class Grupo{
     public void enviarArquivo(String caminho, String destino, String usuario, String grupo)throws Exception{
         try{
             msg.upload(caminho, destino, usuario, channelArquivo, grupo);
+            System.out.println("Enviando " + "\"" + caminho + "\"" + " para " + "@" + destino + ".");
         }catch(IOException ex){
             System.out.println (ex.toString());
         }
@@ -80,12 +81,12 @@ public class Grupo{
     
     public void listarUsuariosGrupo(String grupo){
         String caminho = "/api/exchanges/%2F/" + grupo + "/bindings/source";
-        rest.obterPedido(caminho);
+        rest.obterPedido(caminho, "destination");
     }
     
     public void listarGrupos(String usuario){
         String caminho = "/api/queues/%2F/" + usuario + "/bindings";
-        rest.obterPedido(caminho);
+        rest.obterPedido(caminho, "source");
     }
     
     //Verificando comandos iniciando com (!)
@@ -109,7 +110,7 @@ public class Grupo{
             removerUsuarioGrupo(mensagem[1],mensagem[2]);
             break;
           case "!upload":
-            enviarArquivo(mensagem[1], destino, usuario, grupo);
+            enviarArquivo(mensagem[1], destino.substring(1), usuario, grupo);
             break;
           case "!listUsers":
             listarUsuariosGrupo(mensagem[1]);

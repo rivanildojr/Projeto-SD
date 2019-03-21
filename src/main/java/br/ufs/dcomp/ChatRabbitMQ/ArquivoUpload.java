@@ -28,7 +28,7 @@ public class ArquivoUpload extends Thread{
       this.data = data;
       this.hora = hora;
         start();
-    }
+  }
   
   public void run(){
       try{
@@ -69,7 +69,7 @@ public class ArquivoUpload extends Thread{
      }
       
      System.out.println("\nArquivo \"" + this.caminho + "\" foi enviado para " + dest + " !");
-     System.out.print(dest + ">>");
+     System.out.print(dest + ">> ");
       
      } catch(Exception ex){
         System.out.println (ex.toString());

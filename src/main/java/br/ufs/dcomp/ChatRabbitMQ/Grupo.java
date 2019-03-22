@@ -73,7 +73,12 @@ public class Grupo{
     public void enviarArquivo(String caminho, String destino, String usuario, String grupo)throws Exception{
         try{
             msg.upload(caminho, destino, usuario, channelArquivo, grupo);
-            System.out.println("Enviando " + "\"" + caminho + "\"" + " para " + "@" + destino + ".");
+            String identificador = "";
+            if(grupo.equals("") == false)
+                identificador = "#";
+            else 
+                identificador = "@";
+            System.out.println("Enviando " + "\"" + caminho + "\"" + " para " + identificador + destino + ".");
         }catch(IOException ex){
             System.out.println (ex.toString());
         }
